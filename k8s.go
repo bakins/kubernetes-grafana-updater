@@ -1,10 +1,8 @@
 package main
 
 import (
-	"path/filepath"
-
-	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
+	"go.uber.org/zap"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/fields"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -24,16 +22,8 @@ var (
 func addK8sflags(cmd *cobra.Command) {
 	f := cmd.PersistentFlags()
 	f.StringVarP(&apiserver, "apiserver", "", "", "override Kubernetes API server. default is to use value from kubeconfig or in cluster value")
-	f.StringVarP(&kubeconfig, "kubeconfig", "", defaultKubeconfig(), "path to kubeconfig")
+	f.StringVarP(&kubeconfig, "kubeconfig", "", "", "path to kubeconfig. default is in cluster.")
 	f.StringVarP(&namespace, "namespace", "", "", "namespace to search. Default is all namespaces")
-}
-
-func defaultKubeconfig() string {
-	dir, err := homedir.Dir()
-	if err != nil {
-		return ""
-	}
-	return filepath.Join(dir, ".kube", "config")
 }
 
 func newK8sClient() *kubernetes.Clientset {
@@ -54,6 +44,7 @@ func newK8sClient() *kubernetes.Clientset {
 func newListWatchFromClient(c cache.Getter, resource, namespace, selector string) *cache.ListWatch {
 	listFunc := func(options metav1.ListOptions) (runtime.Object, error) {
 		options.LabelSelector = selector
+		logger.Info("listFunc", zap.String("selector", selector))
 		return c.Get().
 			Namespace(namespace).
 			Resource(resource).
@@ -64,6 +55,7 @@ func newListWatchFromClient(c cache.Getter, resource, namespace, selector string
 	watchFunc := func(options metav1.ListOptions) (watch.Interface, error) {
 		options.Watch = true
 		options.LabelSelector = selector
+		logger.Info("watchFunc", zap.String("selector", selector))
 		return c.Get().
 			Namespace(namespace).
 			Resource(resource).

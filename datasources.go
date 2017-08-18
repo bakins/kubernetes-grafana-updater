@@ -8,6 +8,8 @@ import (
 	"syscall"
 	"time"
 
+	"go.uber.org/zap"
+
 	"github.com/spf13/cobra"
 	"k8s.io/client-go/kubernetes"
 	v1 "k8s.io/client-go/pkg/api/v1"
@@ -29,15 +31,17 @@ func init() {
 }
 
 type serviceSyncer struct {
-	grafana *datasourcesClient
+	grafana *grafanaClient
 	k8s     *kubernetes.Clientset
 }
 
 func runDatasourcesSync(cmd *cobra.Command, args []string) {
 	s := &serviceSyncer{
-		grafana: newDatasourcesClient(getGrafanaURL(), nil),
+		grafana: newGrafanaClient(getGrafanaURL(), nil),
 		k8s:     newK8sClient(),
 	}
+
+	s.grafana.wait()
 
 	watchlist := newListWatchFromClient(
 		s.k8s.CoreV1().RESTClient(),
@@ -49,7 +53,7 @@ func runDatasourcesSync(cmd *cobra.Command, args []string) {
 	_, controller := cache.NewInformer(
 		watchlist,
 		&v1.Service{},
-		time.Second*60, // TODO: flag for this
+		time.Second*300, // TODO: flag for this
 		s,
 	)
 
@@ -83,8 +87,10 @@ func (s *serviceSyncer) OnAdd(obj interface{}) {
 
 	name := getServiceName(service)
 
+	logger.Debug("got service", zap.String("name", name))
+
 	// check if already exists
-	existing, err := s.grafana.Get(name)
+	existing, err := s.grafana.GetDatasource(name)
 	if err != nil {
 		log.Println(err)
 		return
@@ -98,7 +104,7 @@ func (s *serviceSyncer) OnAdd(obj interface{}) {
 	}
 
 	if existing == nil {
-		err = s.grafana.Create(d)
+		err = s.grafana.CreateDatasource(d)
 		if err != nil {
 			log.Println(err)
 			return
@@ -107,7 +113,7 @@ func (s *serviceSyncer) OnAdd(obj interface{}) {
 	}
 
 	d.ID = existing.ID
-	err = s.grafana.Update(d)
+	err = s.grafana.UpdateDatasource(d)
 	if err != nil {
 		log.Println(err)
 		return
@@ -122,7 +128,7 @@ func (s *serviceSyncer) OnDelete(obj interface{}) {
 	}
 	name := getServiceName(service)
 	// check if already exists
-	existing, err := s.grafana.Get(name)
+	existing, err := s.grafana.GetDatasource(name)
 	if err != nil {
 		// TODO: log
 		return
@@ -133,7 +139,7 @@ func (s *serviceSyncer) OnDelete(obj interface{}) {
 		return
 	}
 
-	err = s.grafana.Delete(existing.ID)
+	err = s.grafana.DeleteDatasource(existing.ID)
 	if err != nil {
 		// TODO: log
 		return

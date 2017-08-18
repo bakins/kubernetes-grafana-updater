@@ -1,0 +1,58 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  annotations: {}
+  labels:
+    name: grafana
+  name: grafana
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: grafana
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        name: grafana
+    spec:
+      volumes:
+      - name: data
+        emptyDir: {}
+      containers:
+      - env:
+        - name: GF_AUTH_BASIC_ENABLED
+          value: "false"
+        - name: GF_AUTH_ANONYMOUS_ENABLED
+          value: "true"
+        - name: GF_AUTH_ANONYMOUS_ORG_ROLE
+          value: Admin
+        - name: GF_DASHBOARDS_JSON_ENABLED
+          value: "true"
+        image: grafana/grafana:4.4.3
+        name: grafana
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/grafana/dashboards
+      - name: datasource-updater
+        image: quay.io/bakins/kubernetes-grafana-exporter:latest
+        imagePullPolicy: IfNotPresent
+        command: 
+        - kubernetes-grafana-exporter
+        - --log-level=debug
+        - datasources
+      - name: dashboard-updater
+        image: quay.io/bakins/kubernetes-grafana-exporter:latest
+        imagePullPolicy: IfNotPresent
+        command: 
+        - kubernetes-grafana-exporter
+        - --log-level=debug
+        - dashboards
