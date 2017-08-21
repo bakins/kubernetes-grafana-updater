@@ -7,4 +7,14 @@ install:
 - true
 script:
 - "./script/build"
-
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: bPOuLEOiYodhx+e5dSXmrpD6hnQoTrM6kENdv4t/cuoBWZcgYzQATzD0zNtyzFz65GB/B4TQDhPUNbJp17mHI7js0LFpFTguFMfQsHKp00JC6X3SRWgRjFmZnaGzE0UwFFP41iV9r6Y4ZFMyXK1XvO2K1IvQXDuPyhftq1J8jojyjY73IQudPQe36IaJ49ERYL74M+6UnaikdRjdxrrUlwWZndUcmXdJUwJTOBhHsD+SUwZBDOBKB6oViCcNGC/B9mBOKK/WUAxww8kgE39apdXUhsTLXvRYmcfeEcSgy62QiUdZfO0zXSQMWtww3NZhpxyvDxQS18Ao00k7dNZrzQ/br+UW6mVxliEvxMR+RVGSjf9lNj11lBRm94riBkIOxqflzMWLyV1ESx7faZjk+s42+L1qbiGmjUey3RHufGtkCmOhsUFbOKmOIT0gQdlQ973KrDCs0wG5LUQp2Rl5VAU8rWLmpqyYzQelFCi98o4QCIDW3pCqRg2R4vlFwhvU5iaWQKvGoqFxW5UFLQEwCB9ecsJ7y9TWZCv7772mFmwteRoWyPpME2x2Wf4DKqzYpa604vYEIRl6QEHSp8hdCIhXguUahWcRiuepsxWr0bfH+tR3RkhLOz2t4JXu1hhOf4LFBHfg78EeQWzCQDgPEvaiVZysl2966JMOAMGDWl4=
+  file: 
+    - kubernetes-grafana-exporter.darwin.amd64
+    - kubernetes-grafana-exporter.linux.amd64
+  on:
+    repo: bakins/kubernetes-grafana-updater
+    tags: true
