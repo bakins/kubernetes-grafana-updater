@@ -110,12 +110,6 @@
   revision = "2f5df55504ebc322e4d52d34df6a1f5b503bf26d"
 
 [[projects]]
-  branch = "master"
-  name = "github.com/mitchellh/go-homedir"
-  packages = ["."]
-  revision = "b8bc1bf767474819792c23f32d8286a45736f1c6"
-
-[[projects]]
   name = "github.com/pkg/errors"
   packages = ["."]
   revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
@@ -138,6 +132,24 @@
   name = "github.com/ugorji/go"
   packages = ["codec"]
   revision = "5efa3251c7f7d05e5d9704a69a984ec9f1386a40"
+
+[[projects]]
+  name = "go.uber.org/atomic"
+  packages = ["."]
+  revision = "4e336646b2ef9fc6e47be8e21594178f98e5ebcf"
+  version = "v1.2.0"
+
+[[projects]]
+  name = "go.uber.org/multierr"
+  packages = ["."]
+  revision = "3c4937480c32f4c13a875a1829af76c98ca3d40a"
+  version = "v1.1.0"
+
+[[projects]]
+  name = "go.uber.org/zap"
+  packages = [".","buffer","internal/bufferpool","internal/color","internal/exit","zapcore"]
+  revision = "9d9d6135afe89b6fc4a05e9a8552526caba38048"
+  version = "v1.5.0"
 
 [[projects]]
   branch = "master"
@@ -189,6 +201,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "da3ab057a461b1eb1df5229679e7f6ffe6a10b34be8d5685345a0b0b109deb9b"
+  inputs-digest = "e93c9752d792a9face75c1ecc610cbd445bf085e8e2f5438a36d80de94da219e"
   solver-name = "gps-cdcl"
   solver-version = 1
