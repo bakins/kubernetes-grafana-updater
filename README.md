@@ -34,6 +34,8 @@ $ ls kubernetes-grafana-exporter.*
 kubernetes-grafana-exporter.darwin.amd64	kubernetes-grafana-exporter.linux.amd64
 ```
 
+Binary releases are availible under [Releases](https://github.com/bakins/kubernetes-grafana-updater/releases).
+
 This is also availible as a [Docker image](https://quay.io/repository/bakins/kubernetes-grafana-exporter?tab=tags).
 
 
