@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-NAME=kubernetes-grafana-exporter
+NAME=kubernetes-grafana-updater
 ARCH=amd64
 
 for OS in darwin linux; do

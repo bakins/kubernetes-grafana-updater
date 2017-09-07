@@ -1,2 +1,4 @@
 kubernetes-grafana-exporter.darwin.amd64
 kubernetes-grafana-exporter.linux.amd64
+kubernetes-grafana-updater.darwin.amd64
+kubernetes-grafana-updater.linux.amd64

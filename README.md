@@ -30,19 +30,19 @@ $ cd $GOPATH/src/github.com/bakins
 $ git clone https://github.com/bakins/kubernetes-grafana-updater.git
 $ cd kubernetes-grafana-updater
 $ ./script/build
-$ ls kubernetes-grafana-exporter.*
-kubernetes-grafana-exporter.darwin.amd64	kubernetes-grafana-exporter.linux.amd64
+$ ls kubernetes-grafana-updater.*
+kubernetes-grafana-updater.darwin.amd64	kubernetes-grafana-updater.linux.amd64
 ```
 
 Binary releases are availible under [Releases](https://github.com/bakins/kubernetes-grafana-updater/releases).
 
-This is also availible as a [Docker image](https://quay.io/repository/bakins/kubernetes-grafana-exporter?tab=tags).
+This is also availible as a [Docker image](https://quay.io/repository/bakins/kubernetes-grafana-updater?tab=tags).
 
 
 ## Usage
 
 ```shell
-$ ./kubernetes-grafana-exporter.darwin.amd64 --help
+$ ./kubernetes-grafana-updater.darwin.amd64 --help
 update grafana datasources and dashboards
 
 Usage:
@@ -67,7 +67,7 @@ Kubernetes cluster that match the label selector and add them as datasources in
 Grafana.  It will watch the Kubernetes API and ensure new services are added.
 
 ```shell
-./kubernetes-grafana-exporter.darwin.amd64 datasources --help
+./kubernetes-grafana-updater.darwin.amd64 datasources --help
 syncronize datasources
 
 Usage:
@@ -93,7 +93,7 @@ configmap as a dashboard in Grafana. It will watch the Kubernetes API and ensure
 new dashboards are added.
 
 ```shell
-$ ./kubernetes-grafana-exporter.darwin.amd64 dashboards --help
+$ ./kubernetes-grafana-updater.darwin.amd64 dashboards --help
 syncronize dashboards
 
 Usage:

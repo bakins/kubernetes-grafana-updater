@@ -84,7 +84,7 @@ func (c *grafanaClient) wait() {
 	for i := 0; i < 100; i++ {
 		resp, err := c.HTTPClient.Get(getURL)
 		if err == nil {
-			resp.Body.Close()
+			_ = resp.Body.Close()
 			return
 		}
 		time.Sleep(time.Second)

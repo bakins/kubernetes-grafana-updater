@@ -6,7 +6,7 @@ cd `dirname ${DIR}`
 
 VERSION=`cat VERSION`
 
-IMAGE="quay.io/bakins/kubernetes-grafana-exporter:${VERSION}"
+IMAGE="quay.io/bakins/kubernetes-grafana-updater:${VERSION}"
 
 docker build -t ${IMAGE} .
 docker push ${IMAGE}
