@@ -56,7 +56,7 @@ func runDashboardsSync(cmd *cobra.Command, args []string) {
 
 	_, controller := cache.NewInformer(
 		watchlist,
-		&v1.Service{},
+		&v1.ConfigMap{},
 		time.Second*300, // TODO: flag for this
 		s,
 	)

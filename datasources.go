@@ -76,7 +76,7 @@ func getServicePort(s *v1.Service) int32 {
 }
 
 func getServiceName(s *v1.Service) string {
-	return s.GetName() + "." + s.GetNamespace()
+	return s.GetName() + "_" + s.GetNamespace()
 }
 
 func (s *serviceSyncer) OnAdd(obj interface{}) {
