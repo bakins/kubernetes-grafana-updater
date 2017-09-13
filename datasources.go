@@ -100,7 +100,7 @@ func (s *serviceSyncer) OnAdd(obj interface{}) {
 		Name:   name,
 		Type:   "prometheus",
 		Access: "proxy",
-		URL:    fmt.Sprintf("http://%s:%d", name, getServicePort(service)),
+		URL:    fmt.Sprintf("http://%s.%s:%d", service.GetName(), service.GetNamespace(), getServicePort(service)),
 	}
 
 	if existing == nil {
